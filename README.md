@@ -1,20 +1,14 @@
 # Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+This is the project for sharing puzzle solutions to Advent of Code (AoC) 2024.
 
 # Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+1.	Create a branch using your name (ie: JayAllison)
+2.	Commit your solutions to that branch
+3.	Don't merge your solutions to any other branch
+4.  Join the Atrius or Distech leaderboard!
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+# Organizing Your Puzzle Solutions
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+AoC consists of two puzzles per day for 25 days. Each day you will also have sample data along with the full puzzle data.
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+How do you plan to organize your files - by name or by folder? Just something to think about as you get started within your branch.
