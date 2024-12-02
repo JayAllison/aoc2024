@@ -2,8 +2,8 @@
 filename: str = 'input.txt'
 
 
-def is_level_safe(level: list) -> bool:
-    diffs = [level[i] - level[i+1] for i in range(len(level)-1)]
+def is_report_safe(report: list) -> bool:
+    diffs = [report[i] - report[i+1] for i in range(len(report)-1)]
 
     positives = [d > 0 for d in diffs]
     negatives = [d < 0 for d in diffs]
@@ -15,8 +15,8 @@ def is_level_safe(level: list) -> bool:
     return all(adjacents)
 
 
-levels = [[int(x) for x in line.rstrip().split()] for line in open(filename)]
+reports = [[int(x) for x in line.rstrip().split()] for line in open(filename)]
 
-safe_count = [is_level_safe(lev) for lev in levels].count(True)
+safe_count = [is_report_safe(lev) for lev in reports].count(True)
 
 print(safe_count)
