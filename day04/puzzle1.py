@@ -11,7 +11,6 @@ starts = [(x, y) for x, y in itertools.product(range(x_max), range(y_max)) if bo
 
 directions = [(x, y) for x in (-1, 0, +1) for y in (-1, 0, +1) if x != 0 or y != 0]
 
-word = 'MAS'
 count = 0
 for x_s, y_s in starts:
     for dx, dy in directions:
