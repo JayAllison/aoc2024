@@ -1,4 +1,4 @@
-from collections import defaultdict, deque
+from collections import defaultdict
 
 # filename = "sample.txt"
 filename = "input.txt"
@@ -22,32 +22,23 @@ def check_update(pages_to_update) -> bool:
     return True
 
 
-def fix_update(pages_to_update) -> list:
-    corrected = []
-    for i in range(len(pages_to_update)):
-        newly_corrected = []
-        corrections = []
-        for j in range(len(corrected)):
-            if corrected[j] in rules[pages_to_update[i]]:
-                corrections.append(corrected[j])
+def correct_in_place(pages_to_correct) -> None:
+    for i in range(len(pages_to_correct)):
+        violations = rules[pages_to_correct[i]]
+        j = 0
+        end = i
+        while j < end:
+            if pages_to_correct[j] in violations:
+                pages_to_correct.insert(i, pages_to_correct.pop(j))
+                end -= 1
             else:
-                newly_corrected.append(corrected[j])
-        newly_corrected.append(pages_to_update[i])
-        newly_corrected.extend(corrections)
-        corrected = newly_corrected
-
-    return corrected
-
-
-corrected_updates = []
-
-for update in updates:
-    if not check_update(update):
-        corrected_updates.append(fix_update(update))
+                j += 1
 
 
 total = 0
-for good in corrected_updates:
-    total += int(good[len(good) // 2])
+for update in updates:
+    if not check_update(update):
+        correct_in_place(update)
+        total += int(update[len(update) // 2])
 
 print(total)
