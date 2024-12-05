@@ -5,9 +5,8 @@ filename = "input.txt"
 
 rules_section, updates_section = open(filename).read().split('\n\n')
 
-rules_lines = rules_section.split('\n')
 rules = defaultdict(list)
-for rule in rules_lines:
+for rule in rules_section.split('\n'):
     first, second = rule.split('|')
     rules[first].append(second)
 
@@ -15,21 +14,9 @@ updates = [pages.split(',') for pages in updates_section.split('\n') if pages]
 
 
 def check_update(pages_to_update) -> bool:
-    for i in range(len(pages_to_update)):
-        for p in pages_to_update[0:i]:
-            if p in rules[pages_to_update[i]]:
-                return False
-    return True
+    # is this too compact??? ;)
+    return all([p not in rules[pages_to_update[i]] for i in range(len(pages_to_update)) for p in pages_to_update[0:i]])
 
 
-good_updates = []
-
-for update in updates:
-    if check_update(update):
-        good_updates.append(update)
-
-total = 0
-for good in good_updates:
-    total += int(good[len(good) // 2])
-
-print(total)
+centers = [int(update[len(update) // 2]) for update in updates if check_update(update)]
+print(sum(centers))
