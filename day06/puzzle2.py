@@ -18,7 +18,7 @@ def is_within_map(point) -> bool:
     return 0 <= point[0] < x_max and 0 <= point[1] < y_max
 
 
-def try_to_traverse_map(modified_map, starting_pos):
+def try_to_traverse_map(modified_map, starting_pos, get_points=False):
     directions = ['N', 'E', 'S', 'W']
 
     moves = {
@@ -28,21 +28,16 @@ def try_to_traverse_map(modified_map, starting_pos):
         'W': (-1, +0)
     }
 
+    # optimization attempt 2 - Francis & Taylor suggested tracking point + direction for loop detection
     visited = set()
-    previous_visit_size = 0
-    stuck_count = 1000
     current_pos = starting_pos
     current_dir = 0
 
     while is_within_map(current_pos):
-        visited.add(current_pos)
-
-        # brute force, before I try to do anything clever - just see if I can detect a loop by not going anywhere new
-        if len(visited) == previous_visit_size:
-            stuck_count -= 1
-            if stuck_count == 0:
-                return 0
-        previous_visit_size = len(visited)
+        vector = current_pos + (current_dir,)
+        if vector in visited:
+            return 0  # found a loop
+        visited.add(vector)
 
         nx, ny = (current_pos[0] + moves[directions[current_dir]][0], current_pos[1] + moves[directions[current_dir]][1])
         if is_within_map((nx, ny)) and modified_map[ny][nx] == '#':
@@ -50,7 +45,10 @@ def try_to_traverse_map(modified_map, starting_pos):
         else:
             current_pos = (nx, ny)
 
-    return len(visited)
+    if get_points:
+        return set([(vx, vy) for vx, vy, vd in visited])
+    else:
+        return len(visited)
 
 
 def copy_and_modify_map(point):
@@ -60,22 +58,22 @@ def copy_and_modify_map(point):
 
 
 starting_position = (-1, -1)
-non_obstacle_positions = []
 for x, y in itertools.product(range(x_max), range(y_max)):
     if lab_map[y][x] == '^':
         starting_position = (x, y)
-    elif lab_map[y][x] != '#':
-        non_obstacle_positions.append((x, y))
+
+# optimization attempt 1 - Francis suggested only check blocking places along the original path, excluding the start
+non_obstacle_positions = try_to_traverse_map(lab_map, starting_position, get_points=True)
+non_obstacle_positions.remove(starting_position)
 
 count = 0
-# brute force solution: try blocking every position to see if it causes a problem
 for pos in non_obstacle_positions:
     new_map = copy_and_modify_map(pos)
     if not try_to_traverse_map(new_map, starting_position):
         count += 1
-        print('.', end='', flush=True)
-        if count % 100 == 0:
-            print()
+        # print('.', end='', flush=True)
+        # if count % 100 == 0:
+        #     print()
 
 print()
 print(f'Completed after {datetime.now() - start}')
