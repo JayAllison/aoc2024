@@ -9,10 +9,19 @@ for line in open(filename):
     equations.append((int(test_val), [int(n) for n in nums.split(' ')]))
 
 
-def generate_operator_combinations(combo_count) -> Iterator[list[str]]:
-    # use zero-padded binary number strings to build all of the combinations of operations needed for n positions
-    for i in range(2**combo_count):
-        yield list(format(i, f'0{combo_count}b'))
+operator_characters = '+*|'
+
+
+def generate_operator_combinations(combo_count, start=None) -> Iterator[list[str]]:
+    if not start:
+        start = []
+    for operator in operator_characters:
+        working = start.copy()
+        working.append(operator)
+        if len(working) < combo_count:
+            yield from generate_operator_combinations(combo_count, working)
+        else:
+            yield working
 
 
 def validate_operators_for_equation(operators: list[str], operands: list[int], expected_result: int) -> bool:
@@ -20,11 +29,12 @@ def validate_operators_for_equation(operators: list[str], operands: list[int], e
     for i in range(len(operators)):
         if accumulator > expected_result:
             return False
-        # arbitrarily treat '0' as + and '1' as *
-        if operators[i] == '0':
+        if operators[i] == '+':
             accumulator += operands[i+1]
-        else:
+        elif operators[i] == '*':
             accumulator *= operands[i+1]
+        elif operators[i] == '|':
+            accumulator = int(str(accumulator) + str(operands[i+1]))
 
     return accumulator == expected_result
 
