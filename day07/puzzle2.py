@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Iterator
 
 # filename: str = 'sample.txt'
@@ -39,6 +40,9 @@ def validate_operators_for_equation(operators: list[str], operands: list[int], e
     return accumulator == expected_result
 
 
+before = datetime.now()
+print(f'Starting evaluation at {before}')
+
 calibration = 0
 for test_value, numbers in equations:
     for ops in generate_operator_combinations(len(numbers) - 1):
@@ -46,4 +50,5 @@ for test_value, numbers in equations:
             calibration += test_value
             break
 
+print(f'Completed in {datetime.now() - before}')
 print(calibration)
