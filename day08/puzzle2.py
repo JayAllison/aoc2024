@@ -36,13 +36,13 @@ for antenna in antenna_locations:
             nx2 += dx
             ny2 += dy
 
-for y in range(Y_MAX):
-    line = ''
-    for x in range(X_MAX):
-        if antenna_map[y][x] == '.' and (x, y) in antinode_locations:
-            line += '#'
-        else:
-            line += antenna_map[y][x]
-    print(line)
+# for y in range(Y_MAX):
+#     line = ''
+#     for x in range(X_MAX):
+#         if antenna_map[y][x] == '.' and (x, y) in antinode_locations:
+#             line += '#'
+#         else:
+#             line += antenna_map[y][x]
+#     print(line)
 
 print(len(antinode_locations))
