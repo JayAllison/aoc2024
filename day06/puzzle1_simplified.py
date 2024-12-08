@@ -33,7 +33,7 @@ X_MAX: int = len(lab_map[0])
 
 
 # a utility function to test the point we're about to look at against the bounds of the map
-def is_within_map(point) -> bool:
+def is_within_map(point: tuple) -> bool:
     return 0 <= point[0] < X_MAX and 0 <= point[1] < Y_MAX
 
 
