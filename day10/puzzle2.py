@@ -8,26 +8,21 @@ topo_map: list[list[int]] = [[int(p) for p in line.rstrip()] for line in open(fi
 Y_MAX: int = len(topo_map)
 X_MAX: int = len(topo_map[0])
 
-trailheads = []
+trailheads: list = [(th_x, th_y) for th_x, th_y in product(range(X_MAX), range(Y_MAX)) if topo_map[th_y][th_x] == 0]
+directions: list = [(-1, 0), (+1, 0), (0, -1), (0, +1)]
+total: int = 0
 
-for thx, thy in product(range(X_MAX), range(Y_MAX)):
-    if topo_map[thy][thx] == 0:
-        trailheads.append((thx, thy))
-
-# print(f'Found {len(trailheads)} trailheads.')
-directions = [(-1, 0), (+1, 0), (0, -1), (0, +1)]
-total = 0
 for x, y in trailheads:
-    peaks_found = defaultdict(int)
-    next_steps = [(x, y)]
-    for sx, sy in next_steps:
+    peaks_found: dict[tuple: int] = defaultdict(int)
+    next_steps: list = [(x, y)]
+    for step_x, step_y in next_steps:
         for direction in directions:
-            nx, ny = sx + direction[0], sy + direction[1]
-            if 0 <= nx < X_MAX and 0 <= ny < Y_MAX and topo_map[ny][nx] == topo_map[sy][sx] + 1:
-                if topo_map[ny][nx] == 9:
-                    peaks_found[(nx, ny)] += 1
+            next_x, next_y = step_x + direction[0], step_y + direction[1]
+            if 0 <= next_x < X_MAX and 0 <= next_y < Y_MAX and topo_map[next_y][next_x] == topo_map[step_y][step_x] + 1:
+                if topo_map[next_y][next_x] == 9:
+                    peaks_found[(next_x, next_y)] += 1
                 else:
-                    next_steps.append((nx, ny))
+                    next_steps.append((next_x, next_y))
     total += sum(peaks_found.values())
 
 print(total)
