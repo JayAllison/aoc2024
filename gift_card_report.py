@@ -40,6 +40,8 @@ except requests.exceptions.JSONDecodeError:
 gift_card_earners = {}
 not_yet_there = {}
 for member_id in leaderboard['members']:
+    if leaderboard['members'][member_id]['name'] is None:
+        leaderboard['members'][member_id]['name'] = 'Anonymous ' + member_id
     star_count = leaderboard['members'][member_id]['stars']
     if star_count >= giftcard_star_threshold:
         gift_card_earners[leaderboard['members'][member_id]['name']] = star_count
