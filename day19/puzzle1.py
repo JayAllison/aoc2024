@@ -27,20 +27,18 @@ def is_design_possible(design: str) -> bool:
     return False
 
 
-total_count = 0
-good_count = 0
-bad_count = 0
+good_count: int = 0
+counter: int = 0
 
 for d in designs:
-    total_count += 1
-    print(f'Combo {total_count}: ', end='', flush=True)
+    counter += 1
+    # print(f'Combo {counter}: ', end='', flush=True)
     if is_design_possible(d):
         good_count += 1
-        print('good!')
+        # print('good!')
     else:
-        bad_count += 1
-        print('not good.')
+        # print('not good.')
+        pass
 
 # I think the right answer is between 295 and 343 (was too high)
 print(good_count)
-print(bad_count)
